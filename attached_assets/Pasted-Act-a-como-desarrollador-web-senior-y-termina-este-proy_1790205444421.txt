@@ -1,0 +1,178 @@
+Actúa como desarrollador web senior y termina este proyecto inmobiliario de Alta Soluciones Inmobiliarias.
+
+
+
+El ZIP contiene la versión original del proyecto. Debes auditarla, continuar el desarrollo y aplicar todas estas mejoras finales:
+
+
+
+## Convecta
+
+
+
+1. Revisa la integración existente con Convecta Prop360.
+
+2. Si está incompleta, impleméntala o corrígela usando un backend Express seguro.
+
+3. El frontend nunca debe llamar directamente a Convecta.
+
+4. Usa exclusivamente el Secret de Replit:
+
+   CONVECTA_SUBSCRIPTION_KEY
+
+5. Nunca solicites, muestres ni guardes la clave en el código, archivos .env, Git o frontend.
+
+6. Usa el endpoint y contrato real de Convecta; no inventes campos ni endpoints.
+
+7. Mantén configurable:
+
+   - CONVECTA_API_URL
+
+   - CONVECTA_SYNC_INTERVAL_MINUTES
+
+   - CONVECTA_MAX_SYNC_PAGES
+
+8. Solicita propiedades de arriendo publicadas en web.
+
+9. Implementa:
+
+   - Paginación.
+
+   - Caché en backend.
+
+   - Sincronización automática cada cinco minutos por defecto.
+
+   - Timeout de requests.
+
+   - Manejo claro de errores.
+
+   - Normalización compatible con respuestas planas y anidadas de Convecta.
+
+10. Expón al frontend:
+
+   GET /api/properties
+
+11. Mantén:
+
+   GET /api/healthz
+
+12. Valida las URLs de imágenes y enlaces antes de entregarlas al navegador.
+
+13. No inventes URLs de detalle. Si Convecta no entrega una URL válida, deja el enlace vacío.
+
+
+
+## Interfaz visual
+
+
+
+1. Muestra la web completa en el preview visual de Replit.
+
+2. Mantén el diseño actual de Alta Soluciones Inmobiliarias.
+
+3. Revisa y mejora:
+
+   - Navbar.
+
+   - Hero.
+
+   - Servicios.
+
+   - Propiedades.
+
+   - Información de la empresa.
+
+   - Testimonios.
+
+   - Formulario de contacto.
+
+   - Footer.
+
+4. La sección de propiedades debe mostrar:
+
+   - Imagen.
+
+   - Título.
+
+   - Tipo.
+
+   - Operación.
+
+   - Precio.
+
+   - Ubicación.
+
+   - Dormitorios.
+
+   - Baños.
+
+   - Superficie.
+
+   - Enlace oficial cuando exista.
+
+5. Mantén estados visuales de:
+
+   - Carga.
+
+   - Error.
+
+   - Lista vacía.
+
+   - Actualización manual.
+
+6. Añade un modo demo controlado:
+
+   VITE_DEMO_PROPERTIES=true
+
+7. El modo demo debe mostrar seis propiedades visuales ficticias para poder revisar la interfaz completa sin Convecta.
+
+8. El modo demo debe estar desactivado por defecto en producción.
+
+
+
+## Arquitectura y calidad
+
+
+
+1. Mantén React + Vite + TypeScript en el frontend.
+
+2. Mantén Express + TypeScript en el backend.
+
+3. Mantén el contrato OpenAPI y los esquemas Zod sincronizados.
+
+4. Añade o actualiza:
+
+   - .env.example sin secretos.
+
+   - replit.md.
+
+   - docs/CONVECTA.md.
+
+   - docs/DEPLOYMENT.md.
+
+   - AUDIT-REPORT.md.
+
+5. El script post-merge no debe ejecutar cambios destructivos ni exigir una base de datos que el listado público no utiliza.
+
+6. Corrige metadatos SEO de plantilla y usa textos reales de Alta Soluciones Inmobiliarias.
+
+7. Configura el proxy local del frontend mediante:
+
+   API_PROXY_TARGET=http://127.0.0.1:8080
+
+
+
+## Validación
+
+
+
+Ejecuta y corrige todos los errores de:
+
+
+
+```bash
+
+pnpm run typecheck
+
+PORT=21232 BASE_PATH=/ pnpm run build 
+
