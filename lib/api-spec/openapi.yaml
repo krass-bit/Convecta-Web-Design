@@ -3,13 +3,15 @@ info:
   # Do not change the title, if the title changes, the import paths will be broken
   title: Api
   version: 0.1.0
-  description: API specification
+  description: API pública para Alta Soluciones Inmobiliarias
 servers:
   - url: /api
     description: Base API path
 tags:
   - name: health
     description: Health operations
+  - name: properties
+    description: Public rental property listings
 paths:
   /healthz:
     get:
@@ -24,6 +26,58 @@ paths:
             application/json:
               schema:
                 $ref: "#/components/schemas/HealthStatus"
+  /properties:
+    get:
+      operationId: getProperties
+      tags: [properties]
+      summary: List public rental properties
+      description: Returns rental properties published on the public website, normalized from Convecta Prop360.
+      parameters:
+        - name: page
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            default: 1
+        - name: pageSize
+          in: query
+          required: false
+          schema:
+            type: integer
+            minimum: 1
+            maximum: 100
+            default: 12
+        - name: searchTerm
+          in: query
+          required: false
+          schema:
+            type: string
+        - name: lastUpdateDate
+          in: query
+          required: false
+          schema:
+            type: string
+            format: date-time
+      responses:
+        "200":
+          description: Normalized property listings
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/PropertiesResponse"
+        "400":
+          description: Invalid query parameters
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
+        "502":
+          description: Convecta is unavailable or not configured
+          content:
+            application/json:
+              schema:
+                $ref: "#/components/schemas/ErrorResponse"
 components:
   schemas:
     HealthStatus:
@@ -33,4 +87,85 @@ components:
           type: string
       required:
         - status
+    Property:
+      type: object
+      properties:
+        id:
+          type: string
+        title:
+          type: string
+        type:
+          type: string
+        operation:
+          type: string
+        price:
+          type: string
+        location:
+          type: string
+        beds:
+          type: integer
+          minimum: 0
+        baths:
+          type: integer
+          minimum: 0
+        area:
+          type: number
+          minimum: 0
+        image:
+          type: ["string", "null"]
+          format: uri
+        featured:
+          type: boolean
+        detailUrl:
+          type: ["string", "null"]
+          format: uri
+      required:
+        - id
+        - title
+        - type
+        - operation
+        - price
+        - location
+        - beds
+        - baths
+        - area
+        - image
+        - featured
+        - detailUrl
+    PropertiesResponse:
+      type: object
+      properties:
+        items:
+          type: array
+          items:
+            $ref: "#/components/schemas/Property"
+        totalPages:
+          type: integer
+          minimum: 0
+        totalRecords:
+          type: integer
+          minimum: 0
+        pageNumber:
+          type: integer
+          minimum: 1
+        pageSize:
+          type: integer
+          minimum: 1
+        source:
+          type: string
+          enum: [convecta, demo]
+      required:
+        - items
+        - totalPages
+        - totalRecords
+        - pageNumber
+        - pageSize
+        - source
+    ErrorResponse:
+      type: object
+      properties:
+        error:
+          type: string
+      required:
+        - error
 

@@ -1,15 +1,15 @@
-# [Project name]
+# Alta Soluciones Inmobiliarias
 
-_Replace the heading above with the project's name, and this line with one sentence describing what this app does for users._
+Sitio público inmobiliario para consultar propiedades de arriendo publicadas en Convecta Prop360 y contactar al equipo de Alta.
 
 ## Run & Operate
 
-- `pnpm --filter @workspace/api-server run dev` — run the API server (port 5000)
-- `pnpm run typecheck` — full typecheck across all packages
-- `pnpm run build` — typecheck + build all packages
-- `pnpm --filter @workspace/api-spec run codegen` — regenerate API hooks and Zod schemas from the OpenAPI spec
-- `pnpm --filter @workspace/db run push` — push DB schema changes (dev only)
-- Required env: `DATABASE_URL` — Postgres connection string
+- `pnpm --filter @workspace/api-server run dev` — API seguro y caché de Convecta
+- `pnpm --filter @workspace/alta-si run dev` — frontend Vite
+- `pnpm run typecheck` — comprobación completa de TypeScript
+- `pnpm run build` — typecheck + build
+- `pnpm --filter @workspace/api-spec run codegen` — regenerar hooks React Query y esquemas Zod
+- `PORT=21232 BASE_PATH=/ pnpm run build` — build reproducible del frontend
 
 ## Stack
 
@@ -22,23 +22,33 @@ _Replace the heading above with the project's name, and this line with one sente
 
 ## Where things live
 
-_Populate as you build — short repo map plus pointers to the source-of-truth file for DB schema, API contracts, theme files, etc._
+- `artifacts/alta-si/` — landing page React + Vite, recursos visuales y modo demo.
+- `artifacts/api-server/src/routes/properties.ts` — proxy, normalización, caché y sincronización Convecta.
+- `lib/api-spec/openapi.yaml` — contrato fuente de `/api/healthz` y `/api/properties`.
+- `lib/api-client-react/` y `lib/api-zod/` — salidas generadas del contrato.
+- `docs/CONVECTA.md` — integración, variables y límites de seguridad.
+- `docs/DEPLOYMENT.md` — publicación y comprobaciones.
 
 ## Architecture decisions
 
-_Populate as you build — non-obvious choices a reader couldn't infer from the code (3-5 bullets)._
+- Convecta solo se consulta desde Express; el navegador nunca recibe la clave de suscripción.
+- El caché vive en memoria porque el listado público no necesita base de datos ni migraciones.
+- La respuesta externa se normaliza a un contrato pequeño y estable antes de llegar a React.
+- El modo demo se activa solo desde `VITE_DEMO_PROPERTIES=true` y no se habilita por defecto.
 
 ## Product
 
-_Describe the high-level user-facing capabilities of this app once they exist._
+Landing responsive con navegación, hero, servicios, catálogo de propiedades de arriendo, búsqueda, estados de carga/error/vacío, actualización manual, información de empresa, testimonios, contacto y footer.
 
 ## User preferences
 
-_Populate as you build — explicit user instructions worth remembering across sessions._
+- Las claves, contraseñas y habilitaciones de Convecta deben permanecer fuera del chat, del repositorio y del frontend.
 
 ## Gotchas
 
-_Populate as you build — sharp edges, "always run X before Y" rules._
+- No ejecutar migraciones de base de datos para esta funcionalidad: el catálogo público se sirve desde Convecta y caché en memoria.
+- Después de modificar `lib/api-spec/openapi.yaml`, ejecutar codegen antes de usar hooks o esquemas nuevos.
+- Mantener `VITE_DEMO_PROPERTIES=false` en producción.
 
 ## Pointers
 

@@ -2,6 +2,7 @@ import express, { type Express } from "express";
 import cors from "cors";
 import pinoHttp from "pino-http";
 import router from "./routes";
+import { startPropertiesSync } from "./routes/properties";
 import { logger } from "./lib/logger";
 
 const app: Express = express();
@@ -30,5 +31,7 @@ app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
 app.use("/api", router);
+
+startPropertiesSync(logger);
 
 export default app;

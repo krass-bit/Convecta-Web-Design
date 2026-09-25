@@ -1,0 +1,29 @@
+kind = "web"
+previewPath = "/"
+title = "Alta Soluciones Inmobiliarias"
+description = "Sitio inmobiliario de Alta Soluciones Inmobiliarias con catálogo de propiedades de arriendo sincronizado desde Convecta Prop360 mediante un backend seguro, modo demo y formulario de contacto."
+version = "1.0.0"
+id = "artifacts/alta-si"
+router = "path"
+
+[[services]]
+name = "web"
+paths = [ "/" ]
+localPort = 21231
+
+[services.development]
+run = "pnpm --filter @workspace/alta-si run dev"
+
+[services.production]
+build = [ "pnpm", "--filter", "@workspace/alta-si", "run", "build" ]
+serve = "static"
+publicDir = "artifacts/alta-si/dist/public"
+
+[[services.production.rewrites]]
+from = "/*"
+to = "/index.html"
+
+[services.env]
+PORT = "21231"
+BASE_PATH = "/"
+API_PROXY_TARGET = "http://127.0.0.1:8080"
