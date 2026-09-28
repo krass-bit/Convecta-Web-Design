@@ -20,8 +20,8 @@ const contactInfo = [
   {
     icon: Phone,
     label: "Telefono",
-    value: "+56 2 2345 6789",
-    href: "tel:+56223456789",
+    value: "+56938627229",
+    href: "tel:+56938627229",
   },
   {
     icon: Mail,
@@ -32,7 +32,7 @@ const contactInfo = [
   {
     icon: MapPin,
     label: "Direccion",
-    value: "Av. Providencia 2360, Providencia, Santiago",
+    value: "San Sebastián 2957, Las Condes, Santiago",
     href: "https://maps.google.com",
   },
   {
